@@ -47,6 +47,6 @@ function addNewUser(newUser: Omit<User, 'id'>): User {
   return user;
 }
 
-console.log(users);
-
 addNewUser({ userName: 'bob_schnoe', role: 'member' });
+
+console.log(users);
