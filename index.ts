@@ -6,7 +6,7 @@ type Pizza = {
 
 type Order = {
   id: number;
-  pizzaName: Pizza;
+  pizza: Pizza;
   status: 'completed' | 'ordered';
 };
 
@@ -30,7 +30,7 @@ function addNewPizza(pizza: Pizza): Pizza {
 function placeOrder(pizza: Pizza): Order | undefined {
   const newOrder: Order = {
     id: nextOrderId++,
-    pizzaName: pizza,
+    pizza: pizza,
     status: 'ordered',
   };
   orderQueue.push(newOrder);
@@ -81,7 +81,7 @@ getPizzaDetail('Siciliana');
 addToArray(menu, { id: nextPizzaId++, name: 'Chicken Bacon Ranch', price: 12 });
 addToArray<Order>(orderQueue, {
   id: nextOrderId++,
-  pizzaName: menu[2],
+  pizza: menu[2],
   status: 'completed',
 });
 
