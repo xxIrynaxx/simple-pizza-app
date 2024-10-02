@@ -27,14 +27,20 @@ function addNewPizza(pizza: Pizza): Pizza {
   return pizza;
 }
 
-function placeOrder(pizza: Pizza): Order | undefined {
+function placeOrder(pizzaName: string): Order | undefined {
+  const findPizza = menu.find(pizza => pizza.name.toLowerCase() === pizzaName);
+
+  if (!findPizza) {
+    return undefined;
+  }
+
   const newOrder: Order = {
     id: nextOrderId++,
-    pizza: pizza,
+    pizza: findPizza,
     status: 'ordered',
   };
   orderQueue.push(newOrder);
-  cashInRegister += pizza.price;
+  cashInRegister += findPizza.price;
   return newOrder;
 }
 
@@ -49,17 +55,12 @@ function completeOrder(orderId: number): Order | undefined {
 }
 
 function getPizzaDetail(identifier: string | number): Pizza | undefined {
-  if (typeof identifier === 'string') {
-    return menu.find(
-      pizza => pizza.name.toLowerCase() === identifier.toLowerCase()
-    );
-  } else if (typeof identifier === 'number') {
-    return menu.find(pizza => pizza.id === identifier);
-  } else {
-    throw TypeError(
-      'Parameter `identifier` must be either a string or a number'
-    );
-  }
+  return menu.find(
+    pizza =>
+      (typeof identifier === 'string' &&
+        pizza.name.toLowerCase() === identifier.toLowerCase()) ||
+      (typeof identifier === 'number' && pizza.id === identifier)
+  );
 }
 
 function addToArray<T>(array: T[], item: T): T[] {
@@ -70,8 +71,8 @@ function addToArray<T>(array: T[], item: T): T[] {
 addNewPizza({ id: nextPizzaId++, name: 'Pepperoni', price: 9 });
 addNewPizza({ id: nextPizzaId++, name: 'Four cheeses', price: 10 });
 
-placeOrder({ id: nextPizzaId++, name: 'Pepperoni', price: 9 });
-placeOrder({ id: nextPizzaId++, name: 'Romana', price: 9 });
+placeOrder('Pepperoni');
+placeOrder('Romana');
 
 completeOrder(1);
 
